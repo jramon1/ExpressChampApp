@@ -21,13 +21,15 @@ app.set('view engine', 'hbs')
 
 app.get('/', function(req,res){
   data.champions = data.champions.map(function(champ){
-      var name = champ.name;
+     // var name = champ.name;
+      /*debugger
       switch(name){
         case 'LeBlanc': name = 'Leblanc'; break;
         case 'Cho\'Gath': name = 'Chogath'; break;
-      }
+      }*/
 
-      champ.imgsrc = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'+name.replace(' ', '')+'.png'
+      //champ.imgsrc = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'+name.replace(' ', '')+'.png'
+      champ.imgsrc = 'http://ddragon.leagueoflegends.com/cdn/6.24.1/img/champion/'+champ.key + '.png'
      return champ;
   })
 
@@ -66,13 +68,15 @@ app.get('/api/champion/best-range', function (req, res) {
 // have `armor` Armor, and the gain `armorperlevel` at each level. If many results matches, return them all.
 app.get('/api/champion/weakest-armory-at-level-18', function (req, res) {
   var weakestArmor = Infinity;
+  // var wekeastArmor = data.champions[0].stats.armor + data.champions[0].stats.armorperlevel * 17
   var weakestChampions = [];
   data.champions.forEach(function (current_champion) {
-    if (current_champion.stats.armor < weakestArmor) {
-     weakestRange = current_champion.stats.armor;
+    var currentArmory = current_champion.stats.armor + current_champion.stats.armorperlevel * 17;
+    if (currentArmory < weakestArmor) {
+     weakestRange = currentArmory;
      weakestChampions = [];
     }
-    if (current_champion.stats.armor >= weakestRange) {
+    if (currentArmory >= weakestRange) {
       weakestChampions.push(current_champion);
     }
   });

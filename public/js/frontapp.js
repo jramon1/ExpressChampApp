@@ -19,6 +19,10 @@ $(function(){
       } else {
         roleData[match.role] = 1
       }
+
+
+      // roleData[match.role] =  roleData[match.role] || 0;
+      // ++roleData[match.role];
     })
     var keyCount = Object.keys(roleData).length
     var totalRecords = 0;
@@ -47,11 +51,14 @@ $(function(){
       data.champions.forEach(function(champ){
 
         var match = champ.name.indexOf( filter.search )>-1;
-
-        // filter.Assassin ??
-        // filter.Fighter ??
         //
-        if(match){
+        if(
+          // Text match
+          match &&
+          // Filter by assassin
+          (!filter.Fighter || (filter.Fighter && champ.tags.indexOf("Fighter") > -1)) &&
+          (!filter.Assassin || (filter.Assassin && champ.tags.indexOf("Assassin") > -1))
+        ) {
           // Add to HTML
           $champions.append('<div class="champion"> <h5>'+champ.name+'</h5> <img src="'+champ.imgsrc+'"/> </div>');
         }
@@ -98,44 +105,24 @@ $(function(){
 
 
 
-          //
-      // Chart per Player
       const CHART = document.getElementById("lineChart");
-      console.log(CHART);
-      let myChart = new Chart(CHART, {
-        type: 'line',
-        data: {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
+      const chartLabels = Object.keys(roleData)
+      var chartData = {
+          labels: chartLabels,
           datasets: [
               {
-                  label: "My First dataset",
-                  fill: false,
-                  lineTension: 0.1,
-                  backgroundColor: "rgba(75,192,192,0.4)",
-                  borderColor: "rgba(75,192,192,1)",
-                  borderCapStyle: 'butt',
-                  borderDash: [],
-                  borderDashOffset: 0.0,
-                  borderJoinStyle: 'miter',
-                  pointBorderColor: "rgba(75,192,192,1)",
-                  pointBackgroundColor: "#fff",
-                  pointBorderWidth: 1,
-                  pointHoverRadius: 5,
-                  pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                  pointHoverBorderColor: "rgba(220,220,220,1)",
-                  pointHoverBorderWidth: 2,
-                  pointRadius: 1,
-                  pointHitRadius: 10,
-                  data: [65, 59, 80, 81, 56, 55, 40],
-                  spanGaps: false,
+                  label: "Roles",
+                  backgroundColor: 'lightblue',
+                  borderColor: 'blue',
+                  borderWidth: 1,
+                  data: chartLabels.map(function (cLabel) { return Math.round(roleData[cLabel] * 100, 2); })
               }
           ]
-        }
-      });
-      console.log('myChart', myChart)
-
-
-
+      };
+      let myChart = new Chart(CHART, {
+        type: 'horizontalBar',
+        data: chartData
+     });
     });
 
 
