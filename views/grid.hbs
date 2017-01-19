@@ -1,0 +1,32 @@
+<h1>Grid</h1>
+
+<input id="search" />
+
+<label>
+  <input type="checkbox" value="Assassin" />
+  Assassin
+</label>
+<label>
+  <input type="checkbox" value="Fighter" />
+  Fighter
+</label>
+
+<div class="champions">
+{{#each champions}}
+  <div class="champion" data-id="{{id}}" data-toggle="modal" data-target=".bs-example-modal-sm">
+    <h5 >{{name}}</h5>
+    <img src="{{imgsrc}}" />
+  </div>
+{{/each}}
+</div>
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <canvas id="lineChart" height="400" width="400"></canvas>
+    </div>
+  </div>
+</div>
+
+
+

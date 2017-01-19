@@ -1,0 +1,11 @@
+.champions {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.champion {
+  flex: 1 0 150px;
+  text-align: center;
+}
